@@ -19,31 +19,6 @@ export class QuizService {
   }
 
   async generateQuiz(dto: GenerateQuizDto): Promise<Quiz> {
-    const prompt = `
-Jsi expert na code review a učitel programování. Tvým úkolem je ověřit, zda programátor opravdu rozumí kódu, který právě napsal.
-Dostaneš Git Diff. Vygeneruj 3 až 5 otázek s výběrem odpovědí (A, B, C, D), kde právě jedna odpověď je správná.
-Otázky by se měly týkat konkrétních změn v diffu.
-
-Vrať POUZE validní JSON pole objektů s následující strukturou naprosto bez dalšího formátování (žádný markdown, jen čistý json):
-[
-  {
-    "question": "Znění otázky",
-    "options": ["Odpověď A", "Odpověď B", "Odpověď C", "Odpověď D"],
-    "correctAnswerIndex": 0,
-    "explanation": "Vysvětlení, proč je toto řešení správné s ohledem na diff."
-  }
-]
-
-Zde je Git Diff:
-${dto.diff}
-`;
-
-    const chatCompletion = await this.openai.chat.completions.create({
-      messages: [{ role: 'user', content: prompt }],
-      model: 'gpt-4o-mini',
-      response_format: { type: 'json_object' }
-    });
-
     const enhancedPrompt = `
 Jsi expert na code review a učitel programování. Tvým úkolem je ověřit, zda programátor opravdu rozumí kódu, který právě napsal.
 Vygeneruj 2 až 4 otázky s výběrem odpovědí (4 možnosti), kde právě jedna odpověď je správná.
