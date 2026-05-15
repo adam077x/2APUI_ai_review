@@ -1,0 +1,30 @@
+classDiagram
+    class QuizController {
+        -quizService: QuizService
+        +generate(body: GenerateQuizDto)
+        +generateFromRepo(body: GenerateQuizFromRepoDto)
+        +getAll()
+        +getRepoCommits(url: string)
+        +getById(id: string)
+    }
+
+    class QuizService {
+        -quizRepository: Repository~Quiz~
+        -openai: OpenAI
+        +generateQuiz(dto: GenerateQuizDto)
+        +generateQuizFromRepo(dto: GenerateQuizFromRepoDto)
+        +getAllQuizzes()
+        +getQuizById(id: string)
+        +getCommitsFromRepo(url: string)
+    }
+
+    class Quiz {
+        +id: string
+        +commitHash: string
+        +repositoryName: string
+        +questions: any
+        +createdAt: Date
+    }
+
+    QuizController --> QuizService : používá
+    QuizService --> Quiz : vytváří / načítá
